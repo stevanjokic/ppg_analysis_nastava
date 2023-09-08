@@ -25,13 +25,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 
 # Model architecture remains the same
 model = Sequential()
-model.add(Dense(70, input_dim=len(X[0]), activation='sigmoid'))
+model.add(Dense(100, input_dim=len(X[0]), activation='tanh'))
 model.add(Dense(10, activation='sigmoid'))
 model.add(Dense(1))
 
 model.compile(loss='mean_squared_error', optimizer='adam')
 
-model.fit(X_train, y_train, epochs=200, batch_size=32)
+model.fit(X_train, y_train, epochs=200, batch_size=16)
 
 # Evaluate the model
 loss = model.evaluate(X_test, y_test)
