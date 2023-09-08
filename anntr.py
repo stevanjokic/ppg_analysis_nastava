@@ -10,7 +10,7 @@ from keras.utils import pad_sequences
 
 
 # Read the .csv file
-df = pd.read_csv('data/trainingData.csv')
+df = pd.read_csv('data/trainingDataSDPPG.csv')
 
 # Convert 'Coefficients' from string to list using ast.literal_eval
 df['data'] = df['data'].apply(lambda x: ast.literal_eval(x))
@@ -26,16 +26,16 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 # Model architecture remains the same
 model = Sequential()
 model.add(Dense(100, input_dim=len(X[0]), activation='tanh'))
-model.add(Dense(10, activation='sigmoid'))
+model.add(Dense(30, activation='sigmoid'))
 model.add(Dense(1))
 
 model.compile(loss='mean_squared_error', optimizer='adam')
 
-model.fit(X_train, y_train, epochs=200, batch_size=16)
+model.fit(X_train, y_train, epochs=100, batch_size=8)
 
 # Evaluate the model
 loss = model.evaluate(X_test, y_test)
 print('Test loss:', loss)
 
 # Save the model
-model.save('model/small_70_10_sigmoid.h5')
+model.save('model/small_100_30_sigmoid_SDPPG.h5')
