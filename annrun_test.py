@@ -8,10 +8,10 @@ import pandas as pd
 # Load the model
 # model = load_model('Epohe2000inputNurons512_outputcsv.h5')
 # model = load_model('Epohe2000_two_hidden_outputcsv.h5')
-model = load_model('small.h5')
+model = load_model('model/small_70_10_sigmoid.h5')
 
 # Load the input CSV file
-input_data = pd.read_csv('Data/trainingData.csv')
+input_data = pd.read_csv('data/trainingData.csv')
 
 # Extract data from the DataFrame
 ppg_signals = input_data['data'].apply(eval).tolist()  # Convert string to list
