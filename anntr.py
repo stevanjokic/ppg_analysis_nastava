@@ -10,7 +10,11 @@ from keras.utils import pad_sequences
 
 
 # Read the .csv file
-df = pd.read_csv('data/trainingDataSDPPG.csv')
+# df = pd.read_csv('data/trainingDataSDPPG.csv')
+# df = pd.read_csv('data/trainingDataSDPPG.csv')
+# df = pd.read_csv('data/trainingDataSDPPG.csv')
+df = pd.read_csv('data/trainingData_DB6.csv')
+
 
 # Convert 'Coefficients' from string to list using ast.literal_eval
 df['data'] = df['data'].apply(lambda x: ast.literal_eval(x))
