@@ -3,8 +3,12 @@ import numpy as np
 import scipy.signal as signal
 from scipy.signal import find_peaks
 
-leftL = 20
-rightL = 50
+leftL = 30
+rightL = 60
+
+# dataidavilable = True
+dataidavilable = False
+
 
 # Normalizing
 def normalize_ppg(ppg_signal):
@@ -13,7 +17,7 @@ def normalize_ppg(ppg_signal):
     return 2.*(ppg_signal - np.min(ppg_signal))/np.ptp(ppg_signal)-1
 
 # Read the input CSV file
-with open('data/sredjenExcel.csv', 'r') as file:
+with open('data/sredjenExcel1000.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader) # Skip the header row if present
 
@@ -21,10 +25,17 @@ with open('data/sredjenExcel.csv', 'r') as file:
     with open('data/trainingDataSDPPG.csv', 'w', newline='') as output_file:
         writer = csv.writer(output_file)
         writer.writerow(['data_id', 'age', 'data']) # Write header row
+        rowInd = 0
         for row in reader:
-            data_id = row[0]
-            age = float(row[1])/100.0
-            ppg_data = np.array(eval(row[2])) # Convert the string to an array
+            if dataidavilable: 
+                data_id = row[0]
+                age = float(row[1])/100.0
+                ppg_data = np.array(eval(row[2])) # Convert the string to an array
+            else:
+                data_id = rowInd
+                age = float(row[0])/100.0
+                ppg_data = np.array(eval(row[1])) # Convert the string to an array
+
             ppg_sd = np.zeros(len(ppg_data))
             
             for i in range(3, len(ppg_data)-3):
@@ -45,5 +56,7 @@ with open('data/sredjenExcel.csv', 'r') as file:
                         samples_str = ','.join(str(c) for c in samples)
                         # Write the data to the output CSV file                    
                         writer.writerow([data_id, age, samples_str])
+            
+            rowInd += 1
 
 print("Training data saved to trainingDataSD.csv")

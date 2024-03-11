@@ -13,12 +13,12 @@ def normalize_ppg(ppg_signal):
     return 2.*(ppg_signal - np.min(ppg_signal))/np.ptp(ppg_signal)-1
 
 # Read the input CSV file
-with open('Data/sredjenExcel.csv', 'r') as file:
+with open('data/sredjenExcel.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader) # Skip the header row if present
 
     # Create an output CSV file for storing the wavelet coefficients
-    with open('Data/trainingData.csv', 'w', newline='') as output_file:
+    with open('data/trainingData.csv', 'w', newline='') as output_file:
         writer = csv.writer(output_file)
         writer.writerow(['data_id', 'age', 'data']) # Write header row
         for row in reader:

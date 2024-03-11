@@ -10,10 +10,10 @@ from keras.utils import pad_sequences
 
 
 # Read the .csv file
+df = pd.read_csv('data/trainingDataSDPPG.csv')
 # df = pd.read_csv('data/trainingDataSDPPG.csv')
 # df = pd.read_csv('data/trainingDataSDPPG.csv')
-# df = pd.read_csv('data/trainingDataSDPPG.csv')
-df = pd.read_csv('data/trainingData_DB6.csv')
+# df = pd.read_csv('data/trainingData_DB6.csv')
 
 
 # Convert 'Coefficients' from string to list using ast.literal_eval
@@ -35,7 +35,7 @@ model.add(Dense(1))
 
 model.compile(loss='mean_squared_error', optimizer='adam')
 
-model.fit(X_train, y_train, epochs=100, batch_size=8)
+model.fit(X_train, y_train, epochs=22, batch_size=8)
 
 # Evaluate the model
 loss = model.evaluate(X_test, y_test)

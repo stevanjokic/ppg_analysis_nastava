@@ -16,6 +16,7 @@ input_data = pd.read_csv('data/trainingDataSDPPG.csv')
 # Extract data from the DataFrame
 ppg_signals = input_data['data'].apply(eval).tolist()  # Convert string to list
 correct_ages = input_data['age'].tolist()
+data_id = input_data['data_id'].tolist()
 
 # If your model was trained on padded sequences,
 # make sure to pad your input data in the same way
@@ -27,7 +28,7 @@ ages_predicted = model.predict(ppg_signals)
 
 # If you also want to print each individual prediction alongside the actual age
 for i in range(len(correct_ages)):
-    print(f"Actual Age: {round(100*correct_ages[i])}, Predicted Age: {round(100*ages_predicted[i][0])}")
+    print(f"id:{data_id[i]} Actual Age: {round(100*correct_ages[i])}, Predicted Age: {round(100*ages_predicted[i][0])}")
 
 # Calculate error metrics
 mae = mean_absolute_error(correct_ages, ages_predicted)
