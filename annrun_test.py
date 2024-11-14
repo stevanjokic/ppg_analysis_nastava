@@ -8,10 +8,10 @@ import pandas as pd
 # Load the model
 # model = load_model('Epohe2000inputNurons512_outputcsv.h5')
 # model = load_model('Epohe2000_two_hidden_outputcsv.h5')
-model = load_model('model/small_100_30_sigmoid_SDPPG.h5')
+model = load_model('model/template_hb.h5')
 
 # Load the input CSV file
-input_data = pd.read_csv('data/trainingDataSDPPG.csv')
+input_data = pd.read_csv('data/trainingDataTemplateHB.csv')
 
 # Extract data from the DataFrame
 ppg_signals = input_data['data'].apply(eval).tolist()  # Convert string to list
@@ -25,14 +25,18 @@ data_id = input_data['data_id'].tolist()
 # Predict the age for each PPG signal
 ages_predicted = model.predict(ppg_signals)
 
-
-# If you also want to print each individual prediction alongside the actual age
-for i in range(len(correct_ages)):
-    print(f"id:{data_id[i]} Actual Age: {round(100*correct_ages[i])}, Predicted Age: {round(100*ages_predicted[i][0])}")
-
 # Calculate error metrics
 mae = mean_absolute_error(correct_ages, ages_predicted)
 mse = mean_squared_error(correct_ages, ages_predicted)
+
+# If you also want to print each individual prediction alongside the actual age
+with open("model/result_age_predict_ann_template_hb.txt", "w") as outFile:
+    outFile.write("id,real age,predicted age,|error|\n")
+    for i in range(len(correct_ages)):
+        print(f"id:{data_id[i]} Actual Age: {round(100*correct_ages[i])}, Predicted Age: {round(100*ages_predicted[i][0])}")
+        outFile.write(f"{data_id[i]},{round(100*correct_ages[i])},{round(100*ages_predicted[i][0])},{abs(round(100*(ages_predicted[i][0]-correct_ages[i])))}\n")
+
+    outFile.write(f"\nmae:{round(100*mae)}\nmse:{round(100*mse)}")
 
 print(f"Mean Absolute Error: {round(100*mae)}")
 print(f"Mean Squared Error: {round(100*mse)}")
