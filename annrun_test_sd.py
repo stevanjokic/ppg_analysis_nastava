@@ -1,3 +1,4 @@
+print("started")
 from keras.models import load_model
 # from keras.preprocessing.sequence import pad_sequences
 from keras.utils import pad_sequences
@@ -5,10 +6,14 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
 import pandas as pd
 
+print("after imports")
+
 # Load the model
 # model = load_model('Epohe2000inputNurons512_outputcsv.h5')
 # model = load_model('Epohe2000_two_hidden_outputcsv.h5')
 model = load_model('model/template_hb_sd.h5')
+
+print("after load models")
 
 # Load the input CSV file
 input_data = pd.read_csv('data/trainingDataTemplateHB_SD.csv')
