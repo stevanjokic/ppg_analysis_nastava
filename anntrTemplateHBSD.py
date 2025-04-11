@@ -8,9 +8,13 @@ from keras.layers import Dense
 # from keras.preprocessing.sequence import pad_sequences
 from keras.utils import pad_sequences
 
+from keras.optimizers import Adam
 
+inputFile = "trainingDataTemplateHB_SD_corr.csv"
+outputFile= "template_hb_sd_corr.h5"
 # Read the .csv file
-df = pd.read_csv('data/trainingDataTemplateHB_SD.csv')
+# df = pd.read_csv('data/trainingDataTemplateHB_SD.csv')
+df = pd.read_csv('data/' + inputFile)
 # df = pd.read_csv('data/trainingDataSDPPG.csv')
 # df = pd.read_csv('data/trainingDataSDPPG.csv')
 # df = pd.read_csv('data/trainingData_DB6.csv')
@@ -29,19 +33,20 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 
 # Model architecture remains the same
 model = Sequential()
-model.add(Dense(100, input_dim=len(X[0]), activation='tanh'))
-model.add(Dense(70, activation='tanh'))
-model.add(Dense(50, activation='sigmoid'))
-model.add(Dense(30, activation='sigmoid'))
-model.add(Dense(1))
+model.add(Dense(128, input_dim=len(X[0]), activation='tanh'))
+model.add(Dense(256, activation='tanh'))
+model.add(Dense(128, activation='sigmoid'))
+model.add(Dense(1, activation='sigmoid'))
 
-model.compile(loss='mean_squared_error', optimizer='adam')
+model.compile(loss='mae', metrics=['mae'], optimizer=Adam(learning_rate=0.0003))
 
-model.fit(X_train, y_train, epochs=100, batch_size=1)
+model.fit(X_train, y_train, epochs=15, batch_size=1)
 
 # Evaluate the model
 loss = model.evaluate(X_test, y_test)
 print('Test loss:', loss)
 
 # Save the model
-model.save('model/template_hb_sd.h5')
+
+model.save('model/' + outputFile)
+print('saved model:' + outputFile)

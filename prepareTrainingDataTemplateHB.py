@@ -3,17 +3,18 @@ import numpy as np
 import scipy.signal as signal
 from scipy.signal import find_peaks
 
-startInd = 10
+startInd = 5
 endInd = 80
 
-outFileName = 'trainingDataTemplateHB.csv'
+inputFile = "ppg_template_corr.csv"
+outFileName = 'trainingDataTemplateHB_corr.csv'
 
 def normalize_ppg(ppg_signal):
     # Normalize all values to be between -1 and 1
     #return ppg_signal/np.max(np.abs(ppg_signal))
     return 2.*(ppg_signal - np.min(ppg_signal))/np.ptp(ppg_signal)-1
 
-with open('ppg/ppg_sample_template_hb.csv', 'r') as file:
+with open('ppg/' + inputFile, 'r') as file:
     reader = csv.reader(file)
     next(reader) # Skip the header row if present
 
@@ -22,9 +23,9 @@ with open('ppg/ppg_sample_template_hb.csv', 'r') as file:
         writer = csv.writer(output_file)
         writer.writerow(['data_id', 'age', 'data']) # Write header row
         for row in reader:
-            data_id = row[0]
-            age = float(row[1])/100.0
-            ppg_data = np.array(eval(row[2])) # Convert the string to an array
+            data_id = row[8]
+            age = float(row[3])/100.0
+            ppg_data = np.array(eval(row[1])) # Convert the string to an array
             
             ppg_data = normalize_ppg(ppg_data[startInd:endInd+1])
 
