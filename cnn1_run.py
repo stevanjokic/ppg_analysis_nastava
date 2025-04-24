@@ -62,7 +62,7 @@ dfCr.to_csv('model/res_' + inputFn, index=False)
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 correlation_matrix = np.corrcoef(np.squeeze(age_real), np.squeeze(age_pred))
 correlation_coefficient = correlation_matrix[0, 1]
-print("Pearsonov koeficijent korelacije (R):", round(correlation_coefficient), 2)
+print("Pearsonov koeficijent korelacije (R):", round(correlation_coefficient, 2))
 
 r2 = round(r2_score(age_real, age_pred), 2)
 print("Koeficijent determinacije (R^2):", r2)
